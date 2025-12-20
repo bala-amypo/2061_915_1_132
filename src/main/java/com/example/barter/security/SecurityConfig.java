@@ -1,4 +1,4 @@
-package com.example.barter.config.SecurityConfig;
+package com.example.barter.security.SecurityConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

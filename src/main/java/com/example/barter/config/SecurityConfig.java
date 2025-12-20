@@ -1,4 +1,4 @@
-package com.example.barter.config.SecurityConfig
+package com.example.barter.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +14,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // cite: 161
+        http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll() // cite: 161
+                .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();
@@ -24,6 +25,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // cite: 30
+        return new BCryptPasswordEncoder();
     }
 }
