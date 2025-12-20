@@ -16,10 +16,9 @@ public class MatchServiceImpl implements MatchService {
     private final UserRepository userRepository;
     private final SkillMatchingEngine skillMatchingEngine;
 
-    // Constructor Injection Only [cite: 9]
     public MatchServiceImpl(SkillMatchRepository smr, SkillOfferRepository sor, 
                             SkillRequestRepository srr, UserRepository ur, 
-                            SkillMatchingEngine sme) {
+                            SkillMatchingEngine sme) { // [cite: 107]
         this.skillMatchRepository = smr;
         this.skillOfferRepository = sor;
         this.skillRequestRepository = srr;
@@ -30,13 +29,13 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public SkillMatch createMatch(Long offerId, Long requestId, Long adminUserId) {
         SkillOffer offer = skillOfferRepository.findById(offerId)
-            .orElseThrow(() -> new ResourceNotFoundException("Match not found")); // [cite: 81]
+            .orElseThrow(() -> new ResourceNotFoundException("Match not found")); // [cite: 81, 88]
         SkillRequest request = skillRequestRepository.findById(requestId)
             .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
         User admin = userRepository.findById(adminUserId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found")); // [cite: 85]
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (offer.getUser().getId().equals(request.getUser().getId())) { // 
+        if (offer.getUser().getId().equals(request.getUser().getId())) { // [cite: 52]
             throw new ResourceNotFoundException("Match not found");
         }
 
@@ -44,14 +43,11 @@ public class MatchServiceImpl implements MatchService {
         match.setOffer(offer);
         match.setRequest(request);
         match.setMatchedBy(admin);
-        match.setMatchStatus("PENDING");
-        match.setMatchScore(skillMatchingEngine.calculateMatchScore(offer, request));
+        match.setMatchStatus("PENDING"); // [cite: 52]
+        match.setMatchScore(skillMatchingEngine.calculateMatchScore(offer, request)); // 
         return skillMatchRepository.save(match);
     }
 
-    @Override public SkillMatch getMatch(Long id) { return skillMatchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found")); }
     @Override public List<SkillMatch> getAllMatches() { return skillMatchRepository.findAll(); }
-    @Override public SkillMatch updateMatchStatus(Long id, String s) { SkillMatch m = getMatch(id); m.setMatchStatus(s); return skillMatchRepository.save(m); }
-    @Override public List<SkillMatch> getMatchesByOffer(Long id) { return skillMatchRepository.findByOfferId(id); }
-    @Override public List<SkillMatch> getMatchesByRequest(Long id) { return skillMatchRepository.findByRequestId(id); }
+    @Override public SkillMatch getMatch(Long id) { return skillMatchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found")); }
 }
