@@ -13,53 +13,53 @@ import java.util.List;
 
 @Service
 public class MatchServiceImpl implements MatchService {
-    private final SkillMatchRepository matchRepository;
-    private final SkillOfferRepository offerRepository;
-    private final SkillRequestRepository requestRepository;
+    private final SkillMatchRepository skillMatchRepository;
+    private final SkillOfferRepository skillOfferRepository;
+    private final SkillRequestRepository skillRequestRepository;
     private final UserRepository userRepository;
-    private final SkillMatchingEngine matchingEngine;
+    private final SkillMatchingEngine skillMatchingEngine;
 
-    public MatchServiceImpl(SkillMatchRepository matchRepository, SkillOfferRepository offerRepository, 
-                            SkillRequestRepository requestRepository, UserRepository userRepository, 
-                            SkillMatchingEngine matchingEngine) {
-        this.matchRepository = matchRepository;
-        this.offerRepository = offerRepository;
-        this.requestRepository = requestRepository;
+    public MatchServiceImpl(SkillMatchRepository skillMatchRepository, SkillOfferRepository skillOfferRepository, 
+                            SkillRequestRepository skillRequestRepository, UserRepository userRepository, 
+                            SkillMatchingEngine skillMatchingEngine) {
+        this.skillMatchRepository = skillMatchRepository;
+        this.skillOfferRepository = skillOfferRepository;
+        this.skillRequestRepository = skillRequestRepository;
         this.userRepository = userRepository;
-        this.matchingEngine = matchingEngine;
+        this.skillMatchingEngine = skillMatchingEngine;
     }
 
     @Override
     public SkillMatch createMatch(Long offerId, Long requestId, Long adminUserId) {
-        SkillOffer offer = offerRepository.findById(offerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found")); [cite: 81]
-        SkillRequest request = requestRepository.findById(requestId)
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found")); [cite: 81]
+        SkillOffer offer = skillOfferRepository.findById(offerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
+        SkillRequest request = skillRequestRepository.findById(requestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
         User admin = userRepository.findById(adminUserId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found")); [cite: 85]
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (offer.getUser().getId().equals(request.getUser().getId())) {
-            throw new ResourceNotFoundException("Match not found"); [cite: 52, 81]
+            throw new ResourceNotFoundException("Match not found");
         }
 
         SkillMatch match = new SkillMatch();
         match.setOffer(offer);
         match.setRequest(request);
         match.setMatchedBy(admin);
-        match.setMatchStatus("PENDING"); [cite: 49]
+        match.setMatchStatus("PENDING");
+        match.setMatchScore(skillMatchingEngine.calculateMatchScore(offer, request));
         
-        // Logic for score would be called from matchingEngine here
-        return matchRepository.save(match);
+        return skillMatchRepository.save(match);
     }
 
     @Override
     public SkillMatch getMatch(Long id) {
-        return matchRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found")); [cite: 88]
+        return skillMatchRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
     }
 
     @Override
     public List<SkillMatch> getAllMatches() {
-        return matchRepository.findAll(); [cite: 72]
+        return skillMatchRepository.findAll();
     }
 }
