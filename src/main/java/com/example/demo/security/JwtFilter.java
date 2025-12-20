@@ -1,4 +1,4 @@
-package com.example.barter.security;
+package com.example.demo.security;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.FilterChain;

@@ -1,6 +1,6 @@
-package com.example.barter.security;
+package com.example.demo.security;
 
-import com.example.barter.repository.UserRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,6 +1,6 @@
-package com.example.barter.repository;
+package com.example.demo.repository;
 
-import com.example.barter.model.BarterTransaction;
+import com.example.demo.model.BarterTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
