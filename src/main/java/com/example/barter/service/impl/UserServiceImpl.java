@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) { // [cite: 95]
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) { // cite: 95
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -21,21 +21,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestException("Email already in use"); // [cite: 30, 77]
+            throw new BadRequestException("Email already in use"); // cite: 30, 77
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // [cite: 30]
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // cite: 30
         return userRepository.save(user);
     }
 
     @Override
     public User getById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found")); // [cite: 85, 96]
+                .orElseThrow(() -> new ResourceNotFoundException("User not found")); // cite: 85
     }
 
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found")); // [cite: 96]
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public User updateRating(Long userId, double newRating) {
+        User user = getById(userId);
+        if (newRating < 0.0 || newRating > 5.0) {
+            throw new BadRequestException("Rating must be between 0.0 and 5.0"); // cite: 27, 30
+        }
+        user.setRating(newRating);
+        return userRepository.save(user);
     }
 }
