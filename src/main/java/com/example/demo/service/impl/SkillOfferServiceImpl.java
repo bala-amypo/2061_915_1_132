@@ -1,11 +1,11 @@
-package com.example.barter.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.barter.exception.BadRequestException;
-import com.example.barter.exception.ResourceNotFoundException;
-import com.example.barter.model.SkillOffer;
-import com.example.barter.repository.SkillOfferRepository;
-import com.example.barter.repository.SkillCategoryRepository;
-import com.example.barter.service.SkillOfferService;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.SkillOffer;
+import com.example.demo.repository.SkillOfferRepository;
+import com.example.demo.repository.SkillCategoryRepository;
+import com.example.demo.service.SkillOfferService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

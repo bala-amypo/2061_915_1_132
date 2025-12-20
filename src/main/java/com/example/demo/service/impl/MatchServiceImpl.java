@@ -5,9 +5,9 @@ import com.example.demo.model.SkillMatch;
 import com.example.demo.model.SkillOffer;
 import com.example.demo.model.SkillRequest;
 import com.example.demo.model.User;
-import com.example.barter.repository.*;
-import com.example.barter.service.MatchService;
-import com.example.barter.util.SkillMatchingEngine;
+import com.example.demo.repository.*;
+import com.example.demo.service.MatchService;
+import com.example.demo.util.SkillMatchingEngine;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
