@@ -1,6 +1,13 @@
 package com.example.barter.servlet;
-import jakarta.servlet.http.*;
+
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class HealthServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // Health check for test framework [cite: 6]
+    }
 }

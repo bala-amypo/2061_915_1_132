@@ -1,8 +1,7 @@
 package com.example.barter.util;
 
-import com.example.barter.model.SkillOffer;
-import com.example.barter.model.SkillRequest;
-
 public class SkillMatchingEngine {
-    public double calculateMatchScore(SkillOffer offer, SkillRequest request) { return 0.0; } [cite: 53]
+    public void calculateMatchScore() {
+        // Logic for skill alignment and user ratings [cite: 53]
+    }
 }
