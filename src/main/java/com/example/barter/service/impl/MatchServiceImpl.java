@@ -1,10 +1,7 @@
 package com.example.barter.service.impl;
 
 import com.example.barter.exception.ResourceNotFoundException;
-import com.example.barter.model.SkillMatch;
-import com.example.barter.model.SkillOffer;
-import com.example.barter.model.SkillRequest;
-import com.example.barter.model.User;
+import com.example.barter.model.*;
 import com.example.barter.repository.*;
 import com.example.barter.service.MatchService;
 import com.example.barter.util.SkillMatchingEngine;
@@ -19,6 +16,7 @@ public class MatchServiceImpl implements MatchService {
     private final UserRepository userRepository;
     private final SkillMatchingEngine skillMatchingEngine;
 
+    // Constructor Injection Only [cite: 9]
     public MatchServiceImpl(SkillMatchRepository smr, SkillOfferRepository sor, 
                             SkillRequestRepository srr, UserRepository ur, 
                             SkillMatchingEngine sme) {
@@ -32,13 +30,13 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public SkillMatch createMatch(Long offerId, Long requestId, Long adminUserId) {
         SkillOffer offer = skillOfferRepository.findById(offerId)
-            .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Match not found")); // [cite: 81]
         SkillRequest request = skillRequestRepository.findById(requestId)
             .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
         User admin = userRepository.findById(adminUserId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found")); // [cite: 85]
 
-        if (offer.getUser().getId().equals(request.getUser().getId())) {
+        if (offer.getUser().getId().equals(request.getUser().getId())) { // 
             throw new ResourceNotFoundException("Match not found");
         }
 
@@ -51,31 +49,9 @@ public class MatchServiceImpl implements MatchService {
         return skillMatchRepository.save(match);
     }
 
-    @Override
-    public SkillMatch getMatch(Long id) {
-        return skillMatchRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
-    }
-
-    @Override
-    public List<SkillMatch> getAllMatches() {
-        return skillMatchRepository.findAll();
-    }
-
-    @Override
-    public SkillMatch updateMatchStatus(Long matchId, String status) {
-        SkillMatch match = getMatch(matchId);
-        match.setMatchStatus(status);
-        return skillMatchRepository.save(match);
-    }
-
-    @Override
-    public List<SkillMatch> getMatchesByOffer(Long offerId) {
-        return skillMatchRepository.findByOfferId(offerId);
-    }
-
-    @Override
-    public List<SkillMatch> getMatchesByRequest(Long requestId) {
-        return skillMatchRepository.findByRequestId(requestId);
-    }
+    @Override public SkillMatch getMatch(Long id) { return skillMatchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found")); }
+    @Override public List<SkillMatch> getAllMatches() { return skillMatchRepository.findAll(); }
+    @Override public SkillMatch updateMatchStatus(Long id, String s) { SkillMatch m = getMatch(id); m.setMatchStatus(s); return skillMatchRepository.save(m); }
+    @Override public List<SkillMatch> getMatchesByOffer(Long id) { return skillMatchRepository.findByOfferId(id); }
+    @Override public List<SkillMatch> getMatchesByRequest(Long id) { return skillMatchRepository.findByRequestId(id); }
 }

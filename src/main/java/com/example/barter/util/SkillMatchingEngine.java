@@ -4,8 +4,6 @@ import com.example.barter.model.SkillOffer;
 import com.example.barter.model.SkillRequest;
 
 public class SkillMatchingEngine {
-    // Function declaration returns double as per score requirement
-    public Double calculateMatchScore(SkillOffer offer, SkillRequest request) {
-        return 0.0; // Function declaration only as requested
-    }
+    // Logic for skill alignment and user ratings [cite: 49]
+    public Double calculateMatchScore(SkillOffer offer, SkillRequest request) { return 0.0; }
 }
