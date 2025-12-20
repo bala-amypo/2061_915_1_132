@@ -4,8 +4,5 @@ import com.example.barter.model.SkillOffer;
 import com.example.barter.model.SkillRequest;
 
 public class SkillMatchingEngine {
-    // Function declaration as requested
-    public Double calculateMatchScore(SkillOffer offer, SkillRequest request) {
-        return 0.0; [cite_start]// [cite: 53]
-    }
+    public Double calculateMatchScore(SkillOffer offer, SkillRequest request) { return 0.0; } // [cite: 53]
 }
