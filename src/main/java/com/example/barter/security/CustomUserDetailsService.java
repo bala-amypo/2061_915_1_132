@@ -1,4 +1,21 @@
-package com.example.demo.security;
-public class CustomUserDetailsService {
-    
+package com.example.barter.security;
+
+import com.example.barter.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository; // Constructor injection [cite: 161]
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return null; // Function declaration [cite: 161]
+    }
 }
