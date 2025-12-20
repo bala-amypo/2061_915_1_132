@@ -1,4 +1,4 @@
-package com.example.SkillBarterMatchmakingPlatformTest.config;
+package com.example.barter.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
