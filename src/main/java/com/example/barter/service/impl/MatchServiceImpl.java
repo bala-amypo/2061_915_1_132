@@ -4,7 +4,7 @@ import com.example.barter.exception.ResourceNotFoundException; // [cite: 83]
 import com.example.barter.model.*;
 import com.example.barter.repository.*; // [cite: 17]
 import com.example.barter.service.MatchService; // [cite: 18]
-import com.example.barter.util.SkillMatchingEngine; // [cite: 23]
+import com.example.barter.util.SkillMatchingEngine; // 
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -35,8 +35,7 @@ public class MatchServiceImpl implements MatchService {
         User admin = userRepository.findById(adminUserId)
             .orElseThrow(() -> new ResourceNotFoundException("User not found")); // [cite: 85]
 
-        // Logic: offer and request must be from different users [cite: 52]
-        if (offer.getUser().getId().equals(request.getUser().getId())) {
+        if (offer.getUser().getId().equals(request.getUser().getId())) { // [cite: 52]
             throw new ResourceNotFoundException("Match not found");
         }
 
@@ -48,7 +47,7 @@ public class MatchServiceImpl implements MatchService {
         match.setMatchScore(skillMatchingEngine.calculateMatchScore(offer, request));
         return skillMatchRepository.save(match);
     }
-
+    
     @Override public SkillMatch getMatch(Long id) { return skillMatchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found")); }
     @Override public List<SkillMatch> getAllMatches() { return skillMatchRepository.findAll(); }
     @Override public SkillMatch updateMatchStatus(Long id, String s) { SkillMatch m = getMatch(id); m.setMatchStatus(s); return skillMatchRepository.save(m); }
