@@ -12,43 +12,43 @@ import java.time.LocalDateTime;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    private final BarterTransactionRepository transactionRepository;
-    private final SkillMatchRepository matchRepository;
+    private final BarterTransactionRepository barterTransactionRepository;
+    private final SkillMatchRepository skillMatchRepository;
 
-    public TransactionServiceImpl(BarterTransactionRepository transactionRepository, SkillMatchRepository matchRepository) {
-        this.transactionRepository = transactionRepository;
-        this.matchRepository = matchRepository;
+    public TransactionServiceImpl(BarterTransactionRepository barterTransactionRepository, SkillMatchRepository skillMatchRepository) {
+        this.barterTransactionRepository = barterTransactionRepository;
+        this.skillMatchRepository = skillMatchRepository;
     }
 
     @Override
     public BarterTransaction createTransaction(Long matchId) {
-        SkillMatch match = matchRepository.findById(matchId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found")); [cite: 90]
+        SkillMatch match = skillMatchRepository.findById(matchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
 
         if (!"ACCEPTED".equals(match.getMatchStatus())) {
-            throw new BadRequestException("Transaction not found"); [cite: 58, 111]
+            throw new BadRequestException("Transaction not found");
         }
 
         BarterTransaction transaction = new BarterTransaction();
         transaction.setMatch(match);
-        transaction.setStatus("INITIATED"); [cite: 55]
-        return transactionRepository.save(transaction);
+        transaction.setStatus("INITIATED");
+        return barterTransactionRepository.save(transaction);
     }
 
     @Override
     public BarterTransaction completeTransaction(Long transactionId, Integer offererRating, Integer requesterRating) {
-        BarterTransaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found")); [cite: 90]
+        BarterTransaction transaction = barterTransactionRepository.findById(transactionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
 
         if (offererRating < 1 || offererRating > 5 || requesterRating < 1 || requesterRating > 5) {
-            throw new BadRequestException("Ratings must be between 1 and 5"); [cite: 59]
+            throw new BadRequestException("Ratings must be between 1 and 5");
         }
 
         transaction.setOffererRating(offererRating);
         transaction.setRequesterRating(requesterRating);
-        transaction.setStatus("COMPLETED"); [cite: 55]
-        transaction.setCompletedAt(LocalDateTime.now()); [cite: 59]
+        transaction.setStatus("COMPLETED");
+        transaction.setCompletedAt(LocalDateTime.now());
         
-        return transactionRepository.save(transaction);
+        return barterTransactionRepository.save(transaction);
     }
 }

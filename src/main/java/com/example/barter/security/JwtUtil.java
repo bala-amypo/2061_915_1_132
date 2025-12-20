@@ -3,27 +3,25 @@ package com.example.barter.security;
 import java.util.Map;
 
 public class JwtUtil {
-    public JwtUtil(String secret, long validityInMs) {
-        // Constructor declaration [cite: 154]
-    }
+    public JwtUtil(String secret, long validityInMs) {}
 
     public String generateToken(Map<String, Object> claims, String subject) {
-        return ""; // Function declaration [cite: 155]
+        return "";
     }
 
     public Map<String, Object> getAllClaims(String token) {
-        return null; // Function declaration [cite: 155]
+        return null;
     }
 
     public boolean validateToken(String token) {
-        return false; // Function declaration [cite: 155]
+        return false;
     }
 
     public String getEmail(String token) {
-        return ""; // Function declaration [cite: 155]
+        return "";
     }
 
     public String getRole(String token) {
-        return ""; // Function declaration [cite: 155]
+        return "";
     }
 }
