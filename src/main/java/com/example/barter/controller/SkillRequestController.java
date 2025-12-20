@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/requests")
+@RequestMapping("/api/requests") // cite: 132
 public class SkillRequestController {
 
     private final SkillRequestService skillRequestService;
@@ -18,32 +18,16 @@ public class SkillRequestController {
 
     @PostMapping("/")
     public ResponseEntity<SkillRequest> createRequest(@RequestBody SkillRequest request) {
-        return ResponseEntity.ok(skillRequestService.createRequest(request));
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<SkillRequest>> getAllRequests() {
-        // Implementation for listing all can be added to service if needed
-        return ResponseEntity.ok(skillRequestService.getOpenRequests());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<SkillRequest> getRequest(@PathVariable Long id) {
-        return ResponseEntity.ok(skillRequestService.getRequest(id));
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<SkillRequest>> getRequestsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(skillRequestService.getRequestsByUser(userId));
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<SkillRequest>> getRequestsByCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(skillRequestService.getRequestsByCategory(categoryId));
+        return ResponseEntity.ok(skillRequestService.createRequest(request)); // cite: 133
     }
 
     @GetMapping("/open")
     public ResponseEntity<List<SkillRequest>> getOpenRequests() {
-        return ResponseEntity.ok(skillRequestService.getOpenRequests());
+        return ResponseEntity.ok(skillRequestService.getOpenRequests()); // cite: 138
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SkillRequest> getRequest(@PathVariable Long id) {
+        return ResponseEntity.ok(skillRequestService.getRequest(id)); // cite: 135
     }
 }
