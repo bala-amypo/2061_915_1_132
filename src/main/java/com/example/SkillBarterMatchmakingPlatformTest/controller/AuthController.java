@@ -1,4 +1,4 @@
-package com.example.barter.controller;
+package com.example.SkillBarterMatchmakingPlatformTest.controller;
 
 import com.example.barter.dto.AuthRequest;
 import com.example.barter.dto.AuthResponse;
