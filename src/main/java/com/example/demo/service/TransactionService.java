@@ -1,6 +1,6 @@
-package com.example.barter.service;
+package com.example.demo.service;
 
-import com.example.barter.model.BarterTransaction;
+import com.example.demo.model.BarterTransaction;
 import java.util.List;
 
 public interface TransactionService {

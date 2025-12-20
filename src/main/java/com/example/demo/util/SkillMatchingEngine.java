@@ -1,7 +1,7 @@
-package com.example.barter.util;
+package com.example.demo.util;
 
-import com.example.barter.model.SkillOffer;
-import com.example.barter.model.SkillRequest;
+import com.example.demo.model.SkillOffer;
+import com.example.demo.model.SkillRequest;
 import org.springframework.stereotype.Component;
 
 @Component // This annotation is CRITICAL to fix your error
