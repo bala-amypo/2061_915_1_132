@@ -13,13 +13,23 @@ public class SkillOffer {
     @ManyToOne
     private User user;
 
-    // --- ALIAS METHODS FOR TEST COMPATIBILITY ---
-    public void setId(long id) { this.id = id; }
+    // --- Standard Getters and Setters ---
     public Long getId() { return id; }
-    public void setSkill(Skill skill) { /* maps to logic */ }
-    public Skill getSkill() { return null; }
+    public void setId(Long id) { this.id = id; }
+
+    // Fixes getSkillName() errors
+    public String getSkillName() { return skillName; }
+    public void setSkillName(String skillName) { this.skillName = skillName; }
+
+    // Fixes getUser() errors
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    // --- Alias Methods for Test Compatibility ---
     public void setExperienceLevel(String level) { this.experienceLevel = level; }
     public String getExperienceLevel() { return this.experienceLevel; }
     public void setActive(boolean active) { }
     public boolean isActive() { return true; }
+    public void setSkill(Skill skill) { }
+    public Skill getSkill() { return null; }
 }
