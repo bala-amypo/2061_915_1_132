@@ -12,9 +12,8 @@ public class UserProfile {
     private String role;
     private Double rating = 0.0;
 
-    // Standard Getters and Setters
+    // Standard Getters/Setters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     public String getPassword() { return password; }
