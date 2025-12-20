@@ -7,23 +7,25 @@ import java.time.LocalDateTime;
 public class SkillRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+    private Long id; // 
     @ManyToOne(optional = false)
-    private User user; // cite: 43
-    
+    private User user; // 
     @ManyToOne(optional = false)
-    private SkillCategory skillCategory; // cite: 43
-    
-    private String skillName;
-    private String requiredLevel;
-    private String status = "OPEN";
-    private LocalDateTime createdAt;
+    private SkillCategory skillCategory; // 
+    private String skillName; // 
+    private String requiredLevel; // 
+    private String status = "OPEN"; // 
+    private LocalDateTime createdAt; // 
 
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); } // cite: 47
+    protected void onCreate() { this.createdAt = LocalDateTime.now(); } // [cite: 47]
 
-    public User getUser() { return user; } // cite: 43
+    // Required Getters and Setters
+    public String getSkillName() { return skillName; } // 
+    public void setSkillName(String skillName) { this.skillName = skillName; }
+    public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
-    // ... other getters and setters for id, skillCategory, skillName, etc.
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    // ... add other getters/setters for skillCategory, requiredLevel, status
 }
