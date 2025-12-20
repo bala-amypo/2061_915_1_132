@@ -10,10 +10,10 @@ public class SkillRequest {
     private Long id;
     
     @ManyToOne(optional = false)
-    private User user;
+    private User user; // cite: 43
     
     @ManyToOne(optional = false)
-    private SkillCategory skillCategory;
+    private SkillCategory skillCategory; // cite: 43
     
     private String skillName;
     private String requiredLevel;
@@ -21,12 +21,9 @@ public class SkillRequest {
     private LocalDateTime createdAt;
 
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
+    protected void onCreate() { this.createdAt = LocalDateTime.now(); } // cite: 47
 
-    // Add standard Getters and Setters here
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getSkillName() { return skillName; }
-    public void setSkillName(String skillName) { this.skillName = skillName; }
-    // ... continue for other fields
+    public User getUser() { return user; } // cite: 43
+    public void setUser(User user) { this.user = user; }
+    // ... other getters and setters for id, skillCategory, skillName, etc.
 }
