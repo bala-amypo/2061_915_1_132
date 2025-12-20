@@ -1,38 +1,60 @@
-package com.example.barter.model;
+package com.example.barter.service.impl;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.barter.exception.ResourceNotFoundException;
+import com.example.barter.model.*;
+import com.example.barter.repository.*;
+import com.example.barter.service.MatchService;
+import com.example.barter.util.SkillMatchingEngine;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Entity
-@Table(name = "skill_matches")
-public class SkillMatch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(optional = false)
-    private SkillOffer offer;
-    @ManyToOne(optional = false)
-    private SkillRequest request;
-    @ManyToOne(optional = false)
-    private User matchedBy;
-    private String matchStatus = "PENDING";
-    private Double matchScore = 0.0;
-    private LocalDateTime createdAt;
+@Service
+public class MatchServiceImpl implements MatchService {
+    private final SkillMatchRepository skillMatchRepository;
+    private final SkillOfferRepository skillOfferRepository;
+    private final SkillRequestRepository skillRequestRepository;
+    private final UserRepository userRepository;
+    private final SkillMatchingEngine skillMatchingEngine;
 
-    @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
+    public MatchServiceImpl(SkillMatchRepository smr, SkillOfferRepository sor, 
+                            SkillRequestRepository srr, UserRepository ur, 
+                            SkillMatchingEngine sme) {
+        this.skillMatchRepository = smr;
+        this.skillOfferRepository = sor;
+        this.skillRequestRepository = srr;
+        this.userRepository = ur;
+        this.skillMatchingEngine = sme;
+    }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public SkillOffer getOffer() { return offer; }
-    public void setOffer(SkillOffer offer) { this.offer = offer; }
-    public SkillRequest getRequest() { return request; }
-    public void setRequest(SkillRequest request) { this.request = request; }
-    public User getMatchedBy() { return matchedBy; }
-    public void setMatchedBy(User matchedBy) { this.matchedBy = matchedBy; }
-    public String getMatchStatus() { return matchStatus; }
-    public void setMatchStatus(String status) { this.matchStatus = status; }
-    public Double getMatchScore() { return matchScore; }
-    public void setMatchScore(Double score) { this.matchScore = score; }
+    @Override
+    public SkillMatch createMatch(Long offerId, Long requestId, Long adminUserId) {
+        SkillOffer offer = skillOfferRepository.findById(offerId)
+            .orElseThrow(() -> new ResourceNotFoundException("Match not found")); [cite: 81]
+        SkillRequest request = skillRequestRepository.findById(requestId)
+            .orElseThrow(() -> new ResourceNotFoundException("Match not found")); [cite: 81]
+        User admin = userRepository.findById(adminUserId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found")); [cite: 85]
+
+        if (offer.getUser().getId().equals(request.getUser().getId())) {
+            throw new ResourceNotFoundException("Match not found"); [cite: 52, 81]
+        }
+
+        SkillMatch match = new SkillMatch();
+        match.setOffer(offer);
+        match.setRequest(request);
+        match.setMatchedBy(admin);
+        match.setMatchStatus("PENDING");
+        match.setMatchScore(skillMatchingEngine.calculateMatchScore(offer, request));
+        return skillMatchRepository.save(match);
+    }
+
+    @Override public SkillMatch getMatch(Long id) {
+        return skillMatchRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found"));
+    }
+    @Override public List<SkillMatch> getAllMatches() { return skillMatchRepository.findAll(); }
+    @Override public SkillMatch updateMatchStatus(Long id, String s) { 
+        SkillMatch m = getMatch(id); m.setMatchStatus(s); return skillMatchRepository.save(m); 
+    }
+    @Override public List<SkillMatch> getMatchesByOffer(Long id) { return skillMatchRepository.findByOfferId(id); }
+    @Override public List<SkillMatch> getMatchesByRequest(Long id) { return skillMatchRepository.findByRequestId(id); }
 }

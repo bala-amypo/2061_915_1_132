@@ -9,17 +9,13 @@ public class SkillMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(optional = false)
     private SkillOffer offer;
-
     @ManyToOne(optional = false)
     private SkillRequest request;
-
     @ManyToOne(optional = false)
     private User matchedBy;
-
-    private String matchStatus = "PENDING"; // Values: PENDING, ACCEPTED, REJECTED, COMPLETED
+    private String matchStatus = "PENDING";
     private Double matchScore = 0.0;
     private LocalDateTime createdAt;
 
@@ -36,7 +32,7 @@ public class SkillMatch {
     public User getMatchedBy() { return matchedBy; }
     public void setMatchedBy(User matchedBy) { this.matchedBy = matchedBy; }
     public String getMatchStatus() { return matchStatus; }
-    public void setMatchStatus(String matchStatus) { this.matchStatus = matchStatus; }
+    public void setMatchStatus(String status) { this.matchStatus = status; }
     public Double getMatchScore() { return matchScore; }
-    public void setMatchScore(Double matchScore) { this.matchScore = matchScore; }
+    public void setMatchScore(Double score) { this.matchScore = score; }
 }
