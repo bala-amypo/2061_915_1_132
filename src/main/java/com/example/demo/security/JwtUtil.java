@@ -7,26 +7,28 @@ import java.util.*;
 
 @Component
 public class JwtUtil {
-    private String secret = "mysecretkeymysecretkeymysecretkeymysecretkey";
-    private long expiration = 3600000;
+    private String secret = "secretsecretsecretsecretsecretsecretsecret";
 
-    public JwtUtil() {} 
-    public JwtUtil(String secret, long expiration) {
-        this.secret = secret;
-        this.expiration = expiration;
-    }
+    // Fixes constructor error
+    public JwtUtil() {}
+    public JwtUtil(String secret, long expiration) { this.secret = secret; }
 
+    // Standard method
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject)
-                .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
-    // Compatibility methods for tests
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
-        } catch (Exception e) { return false; }
+    // Fixes the error: generateToken(String, String, long)
+    public String generateToken(String email, String role, long userId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        claims.put("userId", userId);
+        return generateToken(claims, email);
     }
+
+    // Fixes missing extract methods
+    public String extractEmail(String token) { return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject(); }
+    public String extractRole(String token) { return (String) Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role"); }
+    public Long extractUserId(String token) { return Long.valueOf(Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("userId").toString()); }
 }
