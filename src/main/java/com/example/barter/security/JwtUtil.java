@@ -1,9 +1,11 @@
 package com.example.barter.security;
+
 import java.util.Map;
 
 public class JwtUtil {
-    public JwtUtil(String secret, long validityInMs) {}
-    public void generateToken(Map<String, Object> claims, String subject) {}
-    public void validateToken(String token) {}
-    public void getEmail(String token) {}
+    public JwtUtil(String secret, long validityInMs) {} [cite: 154]
+    public String generateToken(Map<String, Object> claims, String subject) { return null; } [cite: 155]
+    public boolean validateToken(String token) { return false; } [cite: 155]
+    public String getEmail(String token) { return null; } [cite: 155]
+    public String getRole(String token) { return null; } [cite: 155]
 }
