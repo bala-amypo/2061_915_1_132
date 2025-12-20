@@ -10,3 +10,4 @@ public class SkillBarterApplication {
         SpringApplication.run(SkillBarterApplication.class, args);
     }
 }
+//SkillApplication
