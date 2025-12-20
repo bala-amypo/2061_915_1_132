@@ -9,22 +9,24 @@ import com.example.barter.repository.SkillMatchRepository;
 import com.example.barter.service.TransactionService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    private final BarterTransactionRepository barterTransactionRepository;
-    private final SkillMatchRepository skillMatchRepository;
+    private final BarterTransactionRepository transactionRepository;
+    private final SkillMatchRepository matchRepository;
 
-    public TransactionServiceImpl(BarterTransactionRepository barterTransactionRepository, SkillMatchRepository skillMatchRepository) {
-        this.barterTransactionRepository = barterTransactionRepository;
-        this.skillMatchRepository = skillMatchRepository;
+    public TransactionServiceImpl(BarterTransactionRepository transactionRepository, SkillMatchRepository matchRepository) {
+        this.transactionRepository = transactionRepository;
+        this.matchRepository = matchRepository;
     }
 
     @Override
     public BarterTransaction createTransaction(Long matchId) {
-        SkillMatch match = skillMatchRepository.findById(matchId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+        SkillMatch match = matchRepository.findById(matchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found")); // [cite: 90, 111]
 
+        // Rule: match must be in ACCEPTED status [cite: 58]
         if (!"ACCEPTED".equals(match.getMatchStatus())) {
             throw new BadRequestException("Transaction not found");
         }
@@ -32,14 +34,15 @@ public class TransactionServiceImpl implements TransactionService {
         BarterTransaction transaction = new BarterTransaction();
         transaction.setMatch(match);
         transaction.setStatus("INITIATED");
-        return barterTransactionRepository.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
     @Override
     public BarterTransaction completeTransaction(Long transactionId, Integer offererRating, Integer requesterRating) {
-        BarterTransaction transaction = barterTransactionRepository.findById(transactionId)
+        BarterTransaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
 
+        // Validation: ratings must be 1-5 [cite: 59, 111]
         if (offererRating < 1 || offererRating > 5 || requesterRating < 1 || requesterRating > 5) {
             throw new BadRequestException("Ratings must be between 1 and 5");
         }
@@ -47,8 +50,24 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setOffererRating(offererRating);
         transaction.setRequesterRating(requesterRating);
         transaction.setStatus("COMPLETED");
-        transaction.setCompletedAt(LocalDateTime.now());
+        transaction.setCompletedAt(LocalDateTime.now()); // [cite: 59]
         
-        return barterTransactionRepository.save(transaction);
+        return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public BarterTransaction getTransaction(Long id) {
+        return transactionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+    }
+
+    @Override
+    public List<BarterTransaction> getAllTransactions() {
+        return transactionRepository.findAll();
+    }
+
+    @Override
+    public List<BarterTransaction> getTransactionsByStatus(String status) {
+        return transactionRepository.findByStatus(status);
     }
 }
