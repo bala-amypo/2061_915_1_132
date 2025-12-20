@@ -1,7 +1,7 @@
 package com.example.barter.service.impl;
 
-import com.example.barter.exception.ResourceNotFoundException;
 import com.example.barter.exception.BadRequestException;
+import com.example.barter.exception.ResourceNotFoundException;
 import com.example.barter.model.SkillRequest;
 import com.example.barter.repository.SkillRequestRepository;
 import com.example.barter.repository.SkillCategoryRepository;
@@ -11,32 +11,45 @@ import java.util.List;
 
 @Service
 public class SkillRequestServiceImpl implements SkillRequestService {
-    private final SkillRequestRepository requestRepository;
-    private final SkillCategoryRepository categoryRepository;
 
-    public SkillRequestServiceImpl(SkillRequestRepository requestRepository, SkillCategoryRepository categoryRepository) {
-        this.requestRepository = requestRepository;
-        this.categoryRepository = categoryRepository;
+    private final SkillRequestRepository skillRequestRepository;
+    private final SkillCategoryRepository skillCategoryRepository;
+
+    public SkillRequestServiceImpl(SkillRequestRepository skillRequestRepository, 
+                                   SkillCategoryRepository skillCategoryRepository) {
+        this.skillRequestRepository = skillRequestRepository;
+        this.skillCategoryRepository = skillCategoryRepository;
     }
 
     @Override
     public SkillRequest createRequest(SkillRequest request) {
-        if (request == null) throw new BadRequestException("Request not found"); [cite: 80, 105]
-        if (request.getSkillName().length() < 5) {
-            throw new BadRequestException("Skill name must be at least 5 characters"); [cite: 78, 105]
+        if (request == null) {
+            throw new BadRequestException("Request not found");
         }
-        return requestRepository.save(request);
+        if (request.getSkillName() == null || request.getSkillName().length() < 5) {
+            throw new BadRequestException("Skill name must be at least 5 characters");
+        }
+        return skillRequestRepository.save(request);
     }
 
     @Override
     public SkillRequest getRequest(Long id) {
-        return requestRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Request not found")); [cite: 87, 105]
+        return skillRequestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+    }
+
+    @Override
+    public List<SkillRequest> getRequestsByUser(Long userId) {
+        return skillRequestRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<SkillRequest> getRequestsByCategory(Long categoryId) {
+        return skillRequestRepository.findBySkillCategoryId(categoryId);
     }
 
     @Override
     public List<SkillRequest> getOpenRequests() {
-        return requestRepository.findByStatus("OPEN"); [cite: 105]
+        return skillRequestRepository.findByStatus("OPEN");
     }
-    // Implement other interface methods...
 }
