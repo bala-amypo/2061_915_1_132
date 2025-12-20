@@ -1,9 +1,9 @@
-package com.example.barter.controller;
+package com.example.demo.controller;
 
-import com.example.barter.dto.AuthRequest;
-import com.example.barter.dto.AuthResponse;
-import com.example.barter.model.User;
-import com.example.barter.service.UserService;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

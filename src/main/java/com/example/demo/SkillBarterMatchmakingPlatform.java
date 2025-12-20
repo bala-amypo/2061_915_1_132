@@ -1,5 +1,6 @@
 package com.example.demo;
 
+// Import your actual packages
 import com.example.barter.controller.*;
 import com.example.barter.dto.*;
 import com.example.barter.model.*;
