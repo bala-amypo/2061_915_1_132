@@ -1,4 +1,4 @@
-package com.example.barter.dto;
+package com.example.demo.dto;
 
 public class AuthRequest {
     private String email;

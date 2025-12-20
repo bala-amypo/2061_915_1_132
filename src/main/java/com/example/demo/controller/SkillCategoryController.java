@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.barter.model.SkillCategory;
-import com.example.barter.service.SkillCategoryService;
+import com.example.demo.model.SkillCategory;
+import com.example.demo.service.SkillCategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

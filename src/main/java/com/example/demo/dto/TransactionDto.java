@@ -1,4 +1,4 @@
-package com.example.barter.dto;
+package com.example.demo.dto;
 import java.time.LocalDateTime;
 
 public class TransactionDto {
