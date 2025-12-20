@@ -1,6 +1,7 @@
 package com.example.barter.service.impl;
 
-import com.example.barter.exception.*;
+import com.example.barter.exception.BadRequestException;
+import com.example.barter.exception.ResourceNotFoundException;
 import com.example.barter.model.User;
 import com.example.barter.repository.UserRepository;
 import com.example.barter.service.UserService;
@@ -29,7 +30,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
-    // Other methods ...
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public User updateRating(Long userId, double newRating) {
+        User user = getById(userId);
+        if (newRating < 0 || newRating > 5) {
+            throw new BadRequestException("Rating must be between 0 and 5");
+        }
+        user.setRating(newRating);
+        return userRepository.save(user);
+    }
 }
