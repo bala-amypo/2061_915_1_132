@@ -19,17 +19,31 @@ public class SkillMatch {
     @ManyToOne(optional = false)
     private User matchedBy;
 
-    private String matchStatus = "PENDING";
+    private String matchStatus = "PENDING"; // Values: PENDING, ACCEPTED, REJECTED, COMPLETED
     private Double matchScore = 0.0;
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() { this.createdAt = LocalDateTime.now(); }
 
-    // Standard Getters and Setters
+    // Required Getters and Setters to resolve compilation errors
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public SkillOffer getOffer() { return offer; }
     public void setOffer(SkillOffer offer) { this.offer = offer; }
+
+    public SkillRequest getRequest() { return request; }
     public void setRequest(SkillRequest request) { this.request = request; }
-    public void setMatchStatus(String status) { this.matchStatus = status; }
-    public void setMatchScore(Double score) { this.matchScore = score; }
+
+    // Fixes the "cannot find symbol: method setMatchedBy" error
+    public User getMatchedBy() { return matchedBy; }
+    public void setMatchedBy(User matchedBy) { this.matchedBy = matchedBy; }
+
+    // Fixes the "cannot find symbol: method getMatchStatus" error
+    public String getMatchStatus() { return matchStatus; }
+    public void setMatchStatus(String matchStatus) { this.matchStatus = matchStatus; }
+
+    public Double getMatchScore() { return matchScore; }
+    public void setMatchScore(Double matchScore) { this.matchScore = matchScore; }
 }
