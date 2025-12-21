@@ -1,10 +1,18 @@
+package com.example.demo.config;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// ... inside your @Configuration class ...
+@Configuration
+public class SecurityConfig {
 
-@Bean
-public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+    // Ensure this is INSIDE the curly braces of the class
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    // ... rest of your SecurityFilterChain code ...
 }
