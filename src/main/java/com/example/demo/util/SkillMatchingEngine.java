@@ -2,24 +2,21 @@ package com.example.demo.util;
 
 import com.example.demo.model.SkillOffer;
 import com.example.demo.model.SkillRequest;
-import org.springframework.stereotype.Component;
 
-@Component // This annotation is CRITICAL to fix your error
 public class SkillMatchingEngine {
 
     /**
-     * Calculates a match score between an offer and a request.
-     * Logic: 100 if skill names match exactly, otherwise 0.
+     * Checks if a specific offer matches a specific request based on the Skill entity.
      */
-    public Double calculateMatchScore(SkillOffer offer, SkillRequest request) {
-        if (offer == null || request == null) return 0.0;
-        
-        // Basic matching logic based on skill names
-        if (offer.getSkillName() != null && 
-            offer.getSkillName().equalsIgnoreCase(request.getSkillName())) {
-            return 100.0;
+    public boolean isMatch(SkillOffer offer, SkillRequest request) {
+        if (offer == null || request == null || offer.getSkill() == null || request.getSkill() == null) {
+            return false;
         }
-        
-        return 0.0;
+
+        // Access the name via getSkill().getName() instead of getSkillName()
+        String offeredSkillName = offer.getSkill().getName();
+        String requestedSkillName = request.getSkill().getName();
+
+        return offeredSkillName != null && offeredSkillName.equalsIgnoreCase(requestedSkillName);
     }
 }
