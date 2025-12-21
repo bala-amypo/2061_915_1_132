@@ -20,9 +20,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Fixes error: does not override abstract method register(User)
-     */
     @Override
     public User register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -35,13 +32,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public User getById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    // --- Potential mismatch 1: Change to findAllUsers ---
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -52,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    // --- Potential mismatch 2: Ensure name is updateUser ---
     @Override
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id)
@@ -64,6 +63,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    // --- Potential mismatch 3: Ensure name is deleteUser ---
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
