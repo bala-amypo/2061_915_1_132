@@ -5,7 +5,11 @@ import java.util.List;
 
 public interface SkillOfferService {
     SkillOffer createOffer(SkillOffer offer);
-    SkillOffer getOfferById(Long id); // Change from getOffer to getOfferById
-    List<SkillOffer> getOffersByUser(Long userId);
     void deleteOffer(Long id);
+    
+    // Align these names exactly with what the Controller calls
+    SkillOffer getOfferById(Long id);
+    SkillOffer getOffer(Long id); // Add this for Controller compatibility
+    List<SkillOffer> getOffersByUser(Long userId);
+    List<SkillOffer> getAvailableOffers();
 }
