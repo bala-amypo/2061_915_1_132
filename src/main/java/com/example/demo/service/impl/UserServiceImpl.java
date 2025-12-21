@@ -36,9 +36,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    // --- Potential mismatch 1: Change to findAllUsers ---
+    /**
+     * Alignment: Interface likely uses 'getAll'
+     */
     @Override
-    public List<User> findAllUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -50,7 +52,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    // --- Potential mismatch 2: Ensure name is updateUser ---
+    /**
+     * Alignment: Interface likely uses 'updateUser'
+     */
     @Override
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id)
@@ -63,7 +67,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    // --- Potential mismatch 3: Ensure name is deleteUser ---
+    /**
+     * Alignment: Interface likely uses 'deleteUser'
+     */
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
