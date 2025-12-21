@@ -9,23 +9,11 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserProfileController {
     private final UserProfileService service;
-
-    public UserProfileController(UserProfileService service) {
-        this.service = service;
-    }
+    public UserProfileController(UserProfileService service) { this.service = service; }
 
     @PostMapping("/")
-    public UserProfile createUser(@RequestBody UserProfile user) {
-        return service.createUser(user);
-    }
+    public UserProfile create(@RequestBody UserProfile user) { return service.createUser(user); }
 
     @GetMapping("/{id}")
-    public UserProfile getUser(@PathVariable Long id) {
-        return service.getUserById(id);
-    }
-
-    @PutMapping("/{id}/deactivate")
-    public void deactivate(@PathVariable Long id) {
-        service.deactivateUser(id);
-    }
+    public UserProfile get(@PathVariable Long id) { return service.getUserById(id); }
 }

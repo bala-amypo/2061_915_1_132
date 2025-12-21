@@ -6,14 +6,12 @@ import lombok.Data;
 @Entity
 @Data
 public class Skill {
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String name; // This is what getSkill().getName() accesses
-    
+    private String name;
     private String category;
     private String description;
-    private Boolean active = true;
+    private boolean active = true;
+
+    public boolean isActive() { return active; }
 }
