@@ -5,10 +5,6 @@ import java.util.List;
 
 public interface SkillCategoryService {
     SkillCategory createCategory(SkillCategory category);
-    SkillCategory getCategory(Long id);
-    List<SkillCategory> getAllCategories();
-}public interface SkillCategoryService {
-    SkillCategory createCategory(SkillCategory category);
     List<SkillCategory> getAllCategories();
     SkillCategory getCategory(Long id);
     SkillCategory findByCategoryName(String name); // Make sure this matches!

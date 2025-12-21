@@ -1,37 +1,36 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.SkillRequest;
 import com.example.demo.repository.SkillRequestRepository;
-import com.example.demo.repository.SkillCategoryRepository;
 import com.example.demo.service.SkillRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class SkillRequestServiceImpl implements SkillRequestService {
-    private final SkillRequestRepository requestRepository;
-    private final SkillCategoryRepository categoryRepository;
 
-    public SkillRequestServiceImpl(SkillRequestRepository requestRepository, SkillCategoryRepository categoryRepository) { // cite: 104
+    private final SkillRequestRepository requestRepository;
+
+    @Autowired
+    public SkillRequestServiceImpl(SkillRequestRepository requestRepository) {
         this.requestRepository = requestRepository;
-        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public SkillRequest createRequest(SkillRequest request) {
-        if (request == null) throw new BadRequestException("Request not found"); // cite: 105
-        if (request.getSkillName() == null || request.getSkillName().length() < 5) {
-            throw new BadRequestException("Skill name must be at least 5 characters"); // cite: 46, 78
-        }
         return requestRepository.save(request);
     }
 
     @Override
-    public SkillRequest getRequest(Long id) {
-        return requestRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Request not found")); // cite: 87, 105
+    public List<SkillRequest> getAllRequests() {
+        return requestRepository.findAll();
+    }
+
+    @Override
+    public List<SkillRequest> getRequestsBySkill(Long skillId) {
+        // Corrected to call findBySkillId
+        return requestRepository.findBySkillId(skillId);
     }
 
     @Override
@@ -40,12 +39,7 @@ public class SkillRequestServiceImpl implements SkillRequestService {
     }
 
     @Override
-    public List<SkillRequest> getRequestsByCategory(Long categoryId) {
-        return requestRepository.findBySkillCategoryId(categoryId);
-    }
-
-    @Override
-    public List<SkillRequest> getOpenRequests() {
-        return requestRepository.findByStatus("OPEN"); // cite: 105
+    public void deleteRequest(Long id) {
+        requestRepository.deleteById(id);
     }
 }
