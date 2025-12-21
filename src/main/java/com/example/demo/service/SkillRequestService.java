@@ -9,6 +9,6 @@ public interface SkillRequestService {
     List<SkillRequest> getOpenRequests();
     void deleteRequest(Long id);
     
-    // Ensure this EXACT name exists for the test
+    // This must match the implementation exactly
     List<SkillRequest> getRequestsByUser(long userId); 
 }

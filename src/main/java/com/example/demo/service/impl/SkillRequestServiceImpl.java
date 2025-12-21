@@ -20,7 +20,6 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return repository.save(request);
     }
 
-    // This implementation resolves the "cannot find symbol" error
     @Override
     public SkillRequest getRequestById(Long id) {
         return repository.findById(id)
@@ -28,13 +27,14 @@ public class SkillRequestServiceImpl implements SkillRequestService {
     }
 
     @Override
-    public List<SkillRequest> getRequestsByUserId(Long userId) {
-        return repository.findByUser_IdAndActiveTrue(userId);
-    }
-
-    @Override
     public List<SkillRequest> getOpenRequests() {
         return repository.findByActiveTrue();
+    }
+
+    // Fix: Match the long primitive type and method name exactly
+    @Override
+    public List<SkillRequest> getRequestsByUser(long userId) {
+        return repository.findByUser_IdAndActiveTrue(userId);
     }
 
     @Override
@@ -43,8 +43,4 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         request.setActive(false);
         repository.save(request);
     }
-    @Override
-    public List<SkillRequest> getRequestsByUser(long userId) {
-    return repository.findByUser_IdAndActiveTrue(userId);
-}
 }
