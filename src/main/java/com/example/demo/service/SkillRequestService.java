@@ -5,8 +5,10 @@ import java.util.List;
 
 public interface SkillRequestService {
     SkillRequest createRequest(SkillRequest request);
-    SkillRequest getRequest(Long id);
-    List<SkillRequest> getRequestsByUser(Long userId);
-    List<SkillRequest> getRequestsByCategory(Long categoryId);
+    List<SkillRequest> getRequestsByUserId(Long userId);
     List<SkillRequest> getOpenRequests();
+    void deleteRequest(Long id);
+    
+    // Add this missing method
+    SkillRequest getRequest(Long id); 
 }
