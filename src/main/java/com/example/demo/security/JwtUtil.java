@@ -12,14 +12,38 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String SECRET_KEY = "my_super_secret_key_that_is_at_least_32_characters_long";
-    private final int TOKEN_VALIDITY = 3600000; 
+    private final int TOKEN_VALIDITY = 3600000; // 1 hour
 
     private Key getSigningKey() {
         byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Both methods perform the same logic to satisfy both Filter and Tests
+    // This method must match the call in AuthController
+    public String generateToken(String email, String role, Long userId) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("role", role)
+                .claim("userId", userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // This method must match the call in JwtAuthFilter
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -32,6 +56,4 @@ public class JwtUtil {
     public String extractEmail(String token) {
         return extractUsername(token);
     }
-
-    // ... (keep the rest of the methods: generateToken, validateToken, etc.)
 }
