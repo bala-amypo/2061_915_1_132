@@ -7,9 +7,9 @@ import java.util.List;
 
 @Repository
 public interface SkillOfferRepository extends JpaRepository<SkillOffer, Long> {
-    // Change this line
     List<SkillOffer> findBySkillId(Long skillId);
-
-    List<SkillOffer> findByAvailability(String availability);
     List<SkillOffer> findByUserId(Long userId);
+    
+    // This matches the private String availability in the Model
+    List<SkillOffer> findByAvailability(String availability); 
 }

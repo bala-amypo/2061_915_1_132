@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*; // This fixes Id, Entity, ManyToOne, etc.
-import java.util.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "skill_offers")
@@ -11,23 +10,27 @@ public class SkillOffer {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    private String experienceLevel;
-    private String skillName;
+    private Long userId;
+    
+    // Add this field - it's what the repository is looking for
+    private String availability; 
+    
+    private String description;
 
     // Standard Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getSkillName() { return skillName; }
-    public void setSkillName(String skillName) { this.skillName = skillName; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
     public Skill getSkill() { return skill; }
     public void setSkill(Skill skill) { this.skill = skill; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    
+    public String getAvailability() { return availability; }
+    public void setAvailability(String availability) { this.availability = availability; }
+    
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }
