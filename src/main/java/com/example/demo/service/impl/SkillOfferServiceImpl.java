@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class SkillOfferServiceImpl implements SkillOfferService {
+
     private final SkillOfferRepository repository;
 
     public SkillOfferServiceImpl(SkillOfferRepository repository) {
@@ -20,7 +21,27 @@ public class SkillOfferServiceImpl implements SkillOfferService {
     }
 
     @Override
-    public List<SkillOffer> getOffersByUserId(Long userId) {
+    public SkillOffer getOffer(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Offer not found"));
+    }
+
+    @Override
+    public List<SkillOffer> getOffersByUser(Long userId) {
         return repository.findByUser_IdAndActiveTrue(userId);
+    }
+
+    @Override
+    public List<SkillOffer> getAvailableOffers() {
+        return repository.findAll().stream()
+                .filter(SkillOffer::getActive)
+                .toList();
+    }
+
+    @Override
+    public void deleteOffer(Long id) {
+        SkillOffer offer = getOffer(id);
+        offer.setActive(false);
+        repository.save(offer);
     }
 }
