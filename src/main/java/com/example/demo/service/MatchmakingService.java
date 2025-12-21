@@ -16,35 +16,35 @@ public class MatchmakingService {
         this.offerRepo = offerRepo;
         this.requestRepo = requestRepo;
     }
+public MatchRecord generateMatch(Long userId) {
+    List<SkillRequest> myRequests = requestRepo.findByUser_IdAndActiveTrue(userId);
+    List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
 
-    public MatchRecord generateMatch(Long userId) {
-        List<SkillRequest> myRequests = requestRepo.findByUser_IdAndActiveTrue(userId);
-        List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
+    for (SkillRequest myReq : myRequests) {
+        // Use myReq.getSkill() explicitly
+        List<SkillOffer> partners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
+        for (SkillOffer pOffer : partners) {
+            UserProfile partnerProfile = pOffer.getUser();
+            if (partnerProfile.getId().equals(userId)) continue;
 
-        for (SkillRequest myReq : myRequests) {
-            List<SkillOffer> partners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
-            for (SkillOffer pOffer : partners) {
-                UserProfile partnerProfile = pOffer.getUser();
-                if (partnerProfile.getId().equals(userId)) continue;
-
-                List<SkillRequest> pReqs = requestRepo.findByUser_IdAndActiveTrue(partnerProfile.getId());
-                for (SkillOffer myOff : myOffers) {
-                    for (SkillRequest pReq : pReqs) {
-                        if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
-                            MatchRecord match = new MatchRecord();
-                            match.setUserA(myReq.getUser());
-                            match.setUserB(partnerProfile);
-                            match.setSkillOfferedByA(myOff.getSkill());
-                            match.setSkillOfferedByB(pOffer.getSkill());
-                            match.setStatus("PENDING");
-                            return matchRepo.save(match);
-                        }
+            List<SkillRequest> pReqs = requestRepo.findByUser_IdAndActiveTrue(partnerProfile.getId());
+            for (SkillOffer myOff : myOffers) {
+                for (SkillRequest pReq : pReqs) {
+                    if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
+                        MatchRecord match = new MatchRecord();
+                        match.setUserA(myReq.getUser());
+                        match.setUserB(partnerProfile);
+                        match.setSkillOfferedByA(myOff.getSkill());
+                        match.setSkillOfferedByB(pOffer.getSkill());
+                        match.setStatus("PENDING");
+                        return matchRepo.save(match);
                     }
                 }
             }
         }
-        throw new RuntimeException("No match found");
     }
+    throw new RuntimeException("No match found");
+}
 
     public MatchRecord getMatchById(Long id) {
         return matchRepo.findById(id).orElseThrow(() -> new RuntimeException("Match not found"));
@@ -59,4 +59,5 @@ public class MatchmakingService {
         match.setStatus(status);
         return matchRepo.save(match);
     }
+    
 }
