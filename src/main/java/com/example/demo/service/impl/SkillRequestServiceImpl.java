@@ -42,9 +42,9 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return requestRepository.findByUserId(userId);
     }
 
-    // This is the specific fix for line 47
+    // Final naming attempt based on common project standards
     @Override
-    public void deleteRequestById(Long id) {
+    public void deleteSkillRequestById(Long id) {
         requestRepository.deleteById(id);
     }
 }
