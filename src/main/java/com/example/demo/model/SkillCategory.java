@@ -26,5 +26,5 @@ public class SkillCategory {
     public void setCategory(String category) { this.category = category; }
 }
 
-// REMOVE the 'class Skill' from here if you have a separate Skill.java file.
-// IF NOT, make it public by creating a new file named Skill.java in the same folder:
+// Note: Removed the 'Skill' class from here to avoid visibility errors.
+// INSTEAD: We will update SkillOffer and SkillRequest to use SkillCategory directly.

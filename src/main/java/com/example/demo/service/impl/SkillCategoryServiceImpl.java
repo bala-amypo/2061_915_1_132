@@ -27,9 +27,15 @@ public class SkillCategoryServiceImpl implements SkillCategoryService {
         return skillCategoryRepository.findAll();
     }
 
+    // New method to match Interface
+    @Override
+    public SkillCategory getCategory(Long id) {
+        return skillCategoryRepository.findById(id).orElse(null);
+    }
+
+    // New method to match Interface
     @Override
     public SkillCategory getCategoryByName(String name) {
-        // Updated to call the corrected repository method findByName
         return skillCategoryRepository.findByName(name).orElse(null);
     }
 
