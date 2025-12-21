@@ -17,12 +17,27 @@ public class MatchServiceImpl implements MatchService {
         this.matchRepository = matchRepository;
     }
 
+    // Fixes the error: must override createMatch(Long, Long, Long)
     @Override
-    public SkillMatch createMatch(SkillMatch match) {
+    public SkillMatch createMatch(Long userId, Long offerId, Long requestId) {
+        SkillMatch match = new SkillMatch();
+        match.setUserId(userId);
+        match.setSkillOfferId(offerId);
+        match.setSkillRequestId(requestId);
+        match.setStatus("PENDING"); // Default status
         return matchRepository.save(match);
     }
 
-    // Fixes the error: must override getMatchesByOffer
+    @Override
+    public SkillMatch getMatch(Long id) {
+        return matchRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<SkillMatch> getAllMatches() {
+        return matchRepository.findAll();
+    }
+
     @Override
     public List<SkillMatch> getMatchesByOffer(Long offerId) {
         return matchRepository.findBySkillOfferId(offerId);
