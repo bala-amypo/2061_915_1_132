@@ -20,7 +20,6 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return repository.save(request);
     }
 
-    // Add this implementation
     @Override
     public SkillRequest getRequest(Long id) {
         return repository.findById(id)
@@ -28,15 +27,14 @@ public class SkillRequestServiceImpl implements SkillRequestService {
     }
 
     @Override
-    public List<SkillRequest> getRequestsByUserId(Long userId) {
-        return repository.findByUser_IdAndActiveTrue(userId);
+    public List<SkillRequest> getOpenRequests() {
+        // Assuming your repository has a method for active requests
+        return repository.findByActiveTrue();
     }
 
     @Override
-    public List<SkillRequest> getOpenRequests() {
-        return repository.findAll().stream()
-                .filter(SkillRequest::getActive)
-                .toList();
+    public List<SkillRequest> getRequestsByUser(Long userId) {
+        return repository.findByUser_IdAndActiveTrue(userId);
     }
 
     @Override

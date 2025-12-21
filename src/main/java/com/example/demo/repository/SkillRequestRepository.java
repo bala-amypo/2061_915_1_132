@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SkillRequestRepository extends JpaRepository<SkillRequest, Long> {
     List<SkillRequest> findByUser_IdAndActiveTrue(Long userId);
+    List<SkillRequest> findByActiveTrue();
 }
