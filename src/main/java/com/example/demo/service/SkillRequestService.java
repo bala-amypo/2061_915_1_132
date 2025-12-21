@@ -5,10 +5,10 @@ import java.util.List;
 
 public interface SkillRequestService {
     SkillRequest createRequest(SkillRequest request);
-    List<SkillRequest> getRequestsByUserId(Long userId);
+    SkillRequest getRequestById(Long id);
     List<SkillRequest> getOpenRequests();
     void deleteRequest(Long id);
     
-    // Add this exact method name to match the controller
-    SkillRequest getRequestById(Long id); 
+    // Ensure this EXACT name exists for the test
+    List<SkillRequest> getRequestsByUser(long userId); 
 }

@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,15 +11,26 @@ import java.time.LocalDateTime;
 public class UserProfile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String email;
+    @Column(unique = true) private String username;
+    @Column(unique = true) private String email;
     private String bio;
     private boolean active = true;
 
-    // Explicit getters/setters to fix "cannot find symbol"
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getUsername() { return username; }
-    public String getBio() { return bio; }
-    public void setActive(boolean active) { this.active = active; }
+    @CreationTimestamp 
+    private LocalDateTime createdAt;
+    
+    @UpdateTimestamp 
+    private LocalDateTime updatedAt;
+
+    // ADD THESE OVERLOADED METHODS FOR TEST COMPATIBILITY
+    public void setCreatedAt(java.sql.Timestamp timestamp) {
+        this.createdAt = timestamp != null ? timestamp.toLocalDateTime() : null;
+    }
+
+    public void setUpdatedAt(java.sql.Timestamp timestamp) {
+        this.updatedAt = timestamp != null ? timestamp.toLocalDateTime() : null;
+    }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

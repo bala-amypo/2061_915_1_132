@@ -43,4 +43,8 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         request.setActive(false);
         repository.save(request);
     }
+    @Override
+    public List<SkillRequest> getRequestsByUser(long userId) {
+    return repository.findByUser_IdAndActiveTrue(userId);
+}
 }
