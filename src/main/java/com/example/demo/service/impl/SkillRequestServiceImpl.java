@@ -20,26 +20,26 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return repository.save(request);
     }
 
+    // This implementation resolves the "cannot find symbol" error
     @Override
-    public SkillRequest getRequest(Long id) {
+    public SkillRequest getRequestById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Skill request not found"));
     }
 
     @Override
-    public List<SkillRequest> getOpenRequests() {
-        // Assuming your repository has a method for active requests
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public List<SkillRequest> getRequestsByUser(Long userId) {
+    public List<SkillRequest> getRequestsByUserId(Long userId) {
         return repository.findByUser_IdAndActiveTrue(userId);
     }
 
     @Override
+    public List<SkillRequest> getOpenRequests() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
     public void deleteRequest(Long id) {
-        SkillRequest request = getRequest(id);
+        SkillRequest request = getRequestById(id);
         request.setActive(false);
         repository.save(request);
     }
