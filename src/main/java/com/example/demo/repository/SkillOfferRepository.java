@@ -7,21 +7,9 @@ import java.util.List;
 
 @Repository
 public interface SkillOfferRepository extends JpaRepository<SkillOffer, Long> {
+    // Change this line
+    List<SkillOffer> findBySkillId(Long skillId);
 
-    /**
-     * Fixes error: cannot find symbol method findBySkillCategoryId(Long)
-     * This query finds offers linked to a specific skill category ID.
-     */
-    List<SkillOffer> findBySkillCategoryId(Long skillCategoryId);
-
-    /**
-     * Fixes error: cannot find symbol method findByAvailability(String)
-     * This query finds offers based on the user's availability string.
-     */
     List<SkillOffer> findByAvailability(String availability);
-
-    /**
-     * Added for completeness: find all offers by a specific User ID.
-     */
     List<SkillOffer> findByUserId(Long userId);
 }
