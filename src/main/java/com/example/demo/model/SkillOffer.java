@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "skill_offers")
 public class SkillOffer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -14,11 +13,19 @@ public class SkillOffer {
     private Skill skill;
 
     private Long userId;
-    
-    // Add this field - it's what the repository is looking for
-    private String availability; 
-    
-    private String description;
+    private String availability;
+
+    // --- ADD THESE METHODS TO FIX THE ERRORS ---
+
+    // Fixes the MatchServiceImpl error
+    public Long getUser() {
+        return this.userId;
+    }
+
+    // Fixes the SkillMatchingEngine error
+    public String getSkillName() {
+        return (this.skill != null) ? this.skill.getName() : null;
+    }
 
     // Standard Getters and Setters
     public Long getId() { return id; }
@@ -27,10 +34,6 @@ public class SkillOffer {
     public void setSkill(Skill skill) { this.skill = skill; }
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
-    
     public String getAvailability() { return availability; }
     public void setAvailability(String availability) { this.availability = availability; }
-    
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
 }
