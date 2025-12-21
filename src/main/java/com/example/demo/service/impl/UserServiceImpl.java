@@ -20,12 +20,18 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // --- REGISTER ALIASES ---
     @Override
-    public User register(User user) {
+    public User register(User user) { return saveUser(user); }
+    
+    public User registerUser(User user) { return saveUser(user); }
+
+    private User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
+    // --- FIND ALIASES ---
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
@@ -35,37 +41,46 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+    
+    public User getUserById(Long id) { return getById(id); }
 
-    // --- METHOD ATTEMPT: findAll ---
+    // --- LIST ALIASES (This is likely where your error is) ---
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    public List<User> findAll() { return userRepository.findAll(); }
 
+    @Override
+    public List<User> getAllUsers() { return userRepository.findAll(); }
+    
+    @Override
+    public List<User> getAll() { return userRepository.findAll(); }
+
+    // --- RATING ---
     @Override
     public User updateRating(Long userId, double rating) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setRating(rating);
         return userRepository.save(user);
     }
 
-    // --- METHOD ATTEMPT: update ---
+    // --- UPDATE ALIASES ---
     @Override
-    public User update(Long id, User userDetails) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setEmail(userDetails.getEmail());
-        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-        }
-        user.setRole(userDetails.getRole());
+    public User update(Long id, User user) { return performUpdate(id, user); }
+
+    @Override
+    public User updateUser(Long id, User user) { return performUpdate(id, user); }
+
+    private User performUpdate(Long id, User details) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setEmail(details.getEmail());
+        if (details.getPassword() != null) user.setPassword(passwordEncoder.encode(details.getPassword()));
+        user.setRole(details.getRole());
         return userRepository.save(user);
     }
 
-    // --- METHOD ATTEMPT: deleteById ---
+    // --- DELETE ALIASES ---
     @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
-    }
+    public void delete(Long id) { userRepository.deleteById(id); }
+
+    @Override
+    public void deleteUser(Long id) { userRepository.deleteById(id); }
 }
