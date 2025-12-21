@@ -10,10 +10,18 @@ import java.time.LocalDateTime;
 public class MatchRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne private UserProfile userA;
-    @ManyToOne private UserProfile userB;
+
+    @ManyToOne 
+    @JoinColumn(name = "user_a_id")
+    private UserProfile userA;
+
+    @ManyToOne 
+    @JoinColumn(name = "user_b_id")
+    private UserProfile userB;
+
     @ManyToOne private Skill skillOfferedByA;
     @ManyToOne private Skill skillOfferedByB;
+    
     @CreationTimestamp private LocalDateTime matchedAt;
     private String status = "PENDING";
 }

@@ -11,7 +11,9 @@ public class MatchmakingService {
     private final SkillOfferRepository offerRepo;
     private final SkillRequestRepository requestRepo;
 
-    public MatchmakingService(MatchRecordRepository matchRepo, SkillOfferRepository offerRepo, SkillRequestRepository requestRepo) {
+    public MatchmakingService(MatchRecordRepository matchRepo, 
+                              SkillOfferRepository offerRepo, 
+                              SkillRequestRepository requestRepo) {
         this.matchRepo = matchRepo;
         this.offerRepo = offerRepo;
         this.requestRepo = requestRepo;
@@ -22,19 +24,18 @@ public class MatchmakingService {
         List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
 
         for (SkillRequest myReq : myRequests) {
-            // Find who offers what I want
+            // Who offers what I want?
             List<SkillOffer> potentialPartners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
             
             for (SkillOffer partnerOffer : potentialPartners) {
-                if (partnerOffer.getUser().getId().equals(userId)) continue;
+                Long partnerId = partnerOffer.getUser().getId();
+                if (partnerId.equals(userId)) continue;
 
-                // Check if that partner wants what I offer
+                // Does this partner want what I offer?
+                List<SkillRequest> partnerRequests = requestRepo.findByUser_IdAndActiveTrue(partnerId);
                 for (SkillOffer myOff : myOffers) {
-                    List<SkillRequest> partnerRequests = requestRepo.findByUser_IdAndActiveTrue(partnerOffer.getUser().getId());
-                    
                     for (SkillRequest pReq : partnerRequests) {
-                        if (pReq.getSkill().equals(myOff.getSkill())) {
-                            // Match Found!
+                        if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
                             MatchRecord match = new MatchRecord();
                             match.setUserA(myReq.getUser());
                             match.setUserB(partnerOffer.getUser());
