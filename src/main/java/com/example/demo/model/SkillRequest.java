@@ -17,4 +17,14 @@ public class SkillRequest {
 
     private String urgencyLevel; // Low, Medium, High
     private Boolean active = true;
+    @Entity
+@Data
+public class SkillRequest {
+    // ... existing fields ...
+    private boolean active = true;
+
+    public boolean isActive() {
+        return this.active;
+    }
+}
 }

@@ -35,4 +35,8 @@ public class MatchRecordController {
     public MatchRecord updateStatus(@PathVariable Long id, @RequestParam String status) {
         return matchmakingService.updateMatchStatus(id, status);
     }
+    @PostMapping("/generate/{userId}")
+public ResponseEntity<MatchRecord> generate(@PathVariable Long userId) {
+    return ResponseEntity.ok(matchmakingService.generateMatch(userId));
+}
 }
