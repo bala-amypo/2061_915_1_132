@@ -1,12 +1,11 @@
 package com.example.demo.service;
-
-import com.example.demo.model.BarterTransaction;
+import com.example.demo.model.UserProfile;
 import java.util.List;
 
-public interface TransactionService {
-    BarterTransaction createTransaction(Long matchId);
-    BarterTransaction getTransaction(Long id);
-    List<BarterTransaction> getAllTransactions();
-    BarterTransaction completeTransaction(Long transactionId, Integer offererRating, Integer requesterRating);
-    List<BarterTransaction> getTransactionsByStatus(String status);
+public interface UserProfileService {
+    UserProfile createUser(UserProfile user);
+    UserProfile getUserById(Long id);
+    List<UserProfile> getAllUsers();
+    void deactivateUser(Long id);
+    UserProfile updateUser(Long id, UserProfile user);
 }
