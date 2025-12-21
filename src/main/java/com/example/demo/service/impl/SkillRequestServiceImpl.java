@@ -22,26 +22,29 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return requestRepository.save(request);
     }
 
-    // Fix 1: Interface requires getOpenRequests instead of getAllRequests
     @Override
     public List<SkillRequest> getOpenRequests() {
         return requestRepository.findAll();
     }
 
-    // Fix 2: Renamed to match the exact interface signature for category
+    @Override
+    public SkillRequest getRequest(Long id) {
+        return requestRepository.findById(id).orElse(null);
+    }
+
     @Override
     public List<SkillRequest> getRequestsByCategory(Long categoryId) {
         return requestRepository.findBySkillId(categoryId);
     }
 
-    // Fix 3: Renamed to match the exact interface signature for user
     @Override
     public List<SkillRequest> getRequestsByUser(Long userId) {
         return requestRepository.findByUserId(userId);
     }
 
+    // This is the specific fix for line 47
     @Override
-    public void deleteRequest(Long id) {
+    public void deleteRequestById(Long id) {
         requestRepository.deleteById(id);
     }
 }
