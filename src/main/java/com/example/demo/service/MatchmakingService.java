@@ -11,9 +11,7 @@ public class MatchmakingService {
     private final SkillOfferRepository offerRepo;
     private final SkillRequestRepository requestRepo;
 
-    public MatchmakingService(MatchRecordRepository matchRepo, 
-                              SkillOfferRepository offerRepo, 
-                              SkillRequestRepository requestRepo) {
+    public MatchmakingService(MatchRecordRepository matchRepo, SkillOfferRepository offerRepo, SkillRequestRepository requestRepo) {
         this.matchRepo = matchRepo;
         this.offerRepo = offerRepo;
         this.requestRepo = requestRepo;
@@ -24,15 +22,11 @@ public class MatchmakingService {
         List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
 
         for (SkillRequest myReq : myRequests) {
-            // Who offers what I want?
             List<SkillOffer> potentialPartners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
-            
             for (SkillOffer partnerOffer : potentialPartners) {
-                Long partnerId = partnerOffer.getUser().getId();
-                if (partnerId.equals(userId)) continue;
+                if (partnerOffer.getUser().getId().equals(userId)) continue;
 
-                // Does this partner want what I offer?
-                List<SkillRequest> partnerRequests = requestRepo.findByUser_IdAndActiveTrue(partnerId);
+                List<SkillRequest> partnerRequests = requestRepo.findByUser_IdAndActiveTrue(partnerOffer.getUser().getId());
                 for (SkillOffer myOff : myOffers) {
                     for (SkillRequest pReq : partnerRequests) {
                         if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
@@ -48,5 +42,13 @@ public class MatchmakingService {
             }
         }
         throw new RuntimeException("No match found");
+    }
+
+    public MatchRecord getMatchById(Long id) {
+        return matchRepo.findById(id).orElseThrow(() -> new RuntimeException("Match not found"));
+    }
+
+    public List<MatchRecord> getMatchesForUser(Long userId) {
+        return matchRepo.findByUserA_IdOrUserB_Id(userId, userId);
     }
 }
