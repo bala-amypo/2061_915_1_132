@@ -6,12 +6,16 @@ import lombok.Data;
 @Entity
 @Data
 public class Skill {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String category;
     private String description;
     private boolean active = true;
 
-    public boolean isActive() { return active; }
+    // Manual getter to ensure compatibility with test suite expectations
+    public boolean isActive() {
+        return this.active;
+    }
 }

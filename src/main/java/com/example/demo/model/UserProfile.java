@@ -20,4 +20,7 @@ public class UserProfile {
     @UpdateTimestamp private LocalDateTime updatedAt;
 
     public boolean isActive() { return active; }
+    public void setUpdatedAt(java.util.Date date) {
+    this.updatedAt = new java.sql.Timestamp(date.getTime()).toLocalDateTime();
+}
 }
