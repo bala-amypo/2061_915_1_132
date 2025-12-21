@@ -1,30 +1,31 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.model.User;
+import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth") // [cite: 114]
+@RequestMapping("/auth")
 public class AuthController {
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService) { // [cite: 9]
+    public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/register") // [cite: 115]
-    public ResponseEntity<AuthResponse> register(@RequestBody User user) {
-        User registered = userService.register(user);
-        return ResponseEntity.ok(new AuthResponse("token", registered.getId(), registered.getEmail(), registered.getRole()));
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return userService.register(user);
     }
 
-    @PostMapping("/login") // [cite: 116]
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        User user = userService.findByEmail(request.getEmail());
-        return ResponseEntity.ok(new AuthResponse("jwt-token", user.getId(), user.getEmail(), user.getRole()));
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest req) {
+        User user = userService.findByEmail(req.getEmail());
+        // In real app, check BCrypt password here
+        return jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
     }
 }
