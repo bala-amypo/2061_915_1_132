@@ -24,16 +24,16 @@ public class MatchmakingService {
         for (SkillRequest myReq : myRequests) {
             List<SkillOffer> partners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
             for (SkillOffer pOffer : partners) {
-                // pOffer.getUser() returns a UserProfile object
-                if (pOffer.getUser().getId().equals(userId)) continue;
+                UserProfile partnerProfile = pOffer.getUser();
+                if (partnerProfile.getId().equals(userId)) continue;
 
-                List<SkillRequest> pReqs = requestRepo.findByUser_IdAndActiveTrue(pOffer.getUser().getId());
+                List<SkillRequest> pReqs = requestRepo.findByUser_IdAndActiveTrue(partnerProfile.getId());
                 for (SkillOffer myOff : myOffers) {
                     for (SkillRequest pReq : pReqs) {
                         if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
                             MatchRecord match = new MatchRecord();
                             match.setUserA(myReq.getUser());
-                            match.setUserB(pOffer.getUser());
+                            match.setUserB(partnerProfile);
                             match.setSkillOfferedByA(myOff.getSkill());
                             match.setSkillOfferedByB(pOffer.getSkill());
                             match.setStatus("PENDING");
@@ -51,7 +51,6 @@ public class MatchmakingService {
     }
 
     public List<MatchRecord> getMatchesForUser(Long userId) {
-        // Required for the controller
         return matchRepo.findByUserA_IdOrUserB_Id(userId, userId);
     }
 
