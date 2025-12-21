@@ -1,34 +1,38 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SkillCategory;
-import com.example.demo.service.SkillCategoryService;
+import com.example.demo.model.Skill;
+import com.example.demo.service.SkillService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
-@Tag(name = "Category") // cite: 167
-public class SkillCategoryController {
-    private final SkillCategoryService categoryService;
+@RequestMapping("/api/skills")
+@Tag(name = "Skills")
+public class SkillController { // RENAME FROM SkillCategoryController
+    private final SkillService skillService;
 
-    public SkillCategoryController(SkillCategoryService categoryService) { // cite: 9
-        this.categoryService = categoryService;
+    public SkillController(SkillService skillService) {
+        this.skillService = skillService;
     }
 
-    @PostMapping("/") // cite: 122
-    public ResponseEntity<SkillCategory> createCategory(@RequestBody SkillCategory category) {
-        return ResponseEntity.ok(categoryService.createCategory(category));
+    @PostMapping("/")
+    public Skill create(@RequestBody Skill skill) {
+        return skillService.createSkill(skill);
     }
 
-    @GetMapping("/") // cite: 123
-    public ResponseEntity<List<SkillCategory>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+    @GetMapping("/{id}")
+    public Skill get(@PathVariable Long id) {
+        return skillService.getSkillById(id);
     }
 
-    @GetMapping("/{id}") // cite: 124
-    public ResponseEntity<SkillCategory> getCategory(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.getCategory(id));
+    @GetMapping("/")
+    public List<Skill> getAll() {
+        return skillService.getAllSkills();
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public void deactivate(@PathVariable Long id) {
+        skillService.deactivateSkill(id);
     }
 }
