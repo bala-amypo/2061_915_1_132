@@ -42,9 +42,8 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return requestRepository.findByUserId(userId);
     }
 
-    // Final naming attempt based on common project standards
-    @Override
-    public void deleteSkillRequestById(Long id) {
-        requestRepository.deleteById(id);
-    }
+    // @Override
+    // public void deleteByRequest(Long id) {
+    //     requestRepository.deleteById(id);
+    // }
 }
