@@ -3,32 +3,33 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "skill_requests")
 public class SkillRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String skillName;
-    private String requiredLevel;
 
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "skill_id")
+    private SkillCategory skill; 
 
-    // --- Standard Getters and Setters ---
+    private Long userId;
+    private String status;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    // Fixes getSkillName() errors
-    public String getSkillName() { return skillName; }
-    public void setSkillName(String skillName) { this.skillName = skillName; }
+    public SkillCategory getSkill() { return skill; }
+    public void setSkill(SkillCategory skill) { this.skill = skill; }
 
-    // Fixes getUser() errors
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    // --- Alias Methods for Test Compatibility ---
-    public void setUrgencyLevel(String level) { this.requiredLevel = level; }
-    public void setActive(boolean active) { }
-    public boolean isActive() { return true; }
-    public void setSkill(Skill skill) { }
-    public Skill getSkill() { return null; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    // ADD THIS METHOD to fix the "cannot find symbol" errors
+    public String getSkillName() {
+        return (skill != null) ? skill.getName() : null;
+    }
 }
