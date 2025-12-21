@@ -23,16 +23,22 @@ public class SkillOfferServiceImpl implements SkillOfferService {
     }
 
     @Override
-    public List<SkillOffer> getAllOffers() {
+    public List<SkillOffer> getAvailableOffers() {
         return offerRepository.findAll();
     }
 
     @Override
-    public List<SkillOffer> getOffersBySkill(Long skillId) {
-        // Corrected to match the repository method name
+    public List<SkillOffer> getBySkill(Long skillId) {
         return offerRepository.findBySkillId(skillId);
     }
 
+    // New method to satisfy the Controller
+    @Override
+    public SkillOffer getOffer(Long id) {
+        return offerRepository.findById(id).orElse(null);
+    }
+
+    // New method to satisfy the Controller
     @Override
     public List<SkillOffer> getOffersByUser(Long userId) {
         return offerRepository.findByUserId(userId);
