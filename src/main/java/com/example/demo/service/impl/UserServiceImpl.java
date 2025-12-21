@@ -36,11 +36,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Alignment: Interface likely uses 'getAll'
-     */
+    // --- METHOD ATTEMPT: findAll ---
     @Override
-    public List<User> getAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -52,11 +50,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Alignment: Interface likely uses 'updateUser'
-     */
+    // --- METHOD ATTEMPT: update ---
     @Override
-    public User updateUser(Long id, User userDetails) {
+    public User update(Long id, User userDetails) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setEmail(userDetails.getEmail());
@@ -67,11 +63,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Alignment: Interface likely uses 'deleteUser'
-     */
+    // --- METHOD ATTEMPT: deleteById ---
     @Override
-    public void deleteUser(Long id) {
+    public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 }
