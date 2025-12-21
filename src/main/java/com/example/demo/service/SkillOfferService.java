@@ -5,10 +5,7 @@ import java.util.List;
 
 public interface SkillOfferService {
     SkillOffer createOffer(SkillOffer offer);
-    void deleteOffer(Long id);
-    
-    // Adding the missing methods required by the Controller
-    SkillOffer getOffer(Long id);
+    SkillOffer getOfferById(Long id); // Change from getOffer to getOfferById
     List<SkillOffer> getOffersByUser(Long userId);
-    List<SkillOffer> getAvailableOffers();
+    void deleteOffer(Long id);
 }
