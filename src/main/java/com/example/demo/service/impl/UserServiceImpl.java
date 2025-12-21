@@ -20,15 +20,17 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Fixes error: does not override abstract method register(User)
+     */
     @Override
-    public User registerUser(User user) {
+    public User register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public User findByEmail(String email) {
-        // Interface expects User, so we extract from Optional or return null/throw
         return userRepository.findByEmail(email).orElse(null);
     }
 
@@ -38,11 +40,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public User updateRating(Long userId, double rating) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setRating(rating);
-        return userRepository.save(user); // Returns User to match interface
+        return userRepository.save(user);
     }
 
     @Override
