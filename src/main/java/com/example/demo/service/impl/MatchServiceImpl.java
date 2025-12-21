@@ -55,4 +55,13 @@ public class MatchServiceImpl implements MatchService {
         match.setStatus(status);
         return matchRepository.save(match);
     }
+    @Override
+    public SkillMatch createMatch(Long userId, Long offerId, Long requestId) {
+        SkillMatch match = new SkillMatch();
+        match.setUserId(userId);
+        match.setSkillOfferId(offerId);
+        match.setSkillRequestId(requestId);
+        match.setStatus("PENDING");
+        return matchRepository.save(match);
+    }
 }
