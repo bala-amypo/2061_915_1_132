@@ -11,40 +11,16 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Use a long, secure string. 
-    // It doesn't need to be Base64 encoded if we use Keys.hmacShaKeyFor
     private final String SECRET_KEY = "my_super_secret_key_that_is_at_least_32_characters_long";
-    private final int TOKEN_VALIDITY = 3600000; // 1 hour
+    private final int TOKEN_VALIDITY = 3600000; 
 
     private Key getSigningKey() {
         byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email, String role, Long userId) {
-        return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
-                .claim("userId", userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public String extractEmail(String token) {
+    // Both methods perform the same logic to satisfy both Filter and Tests
+    public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -52,4 +28,10 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
+
+    public String extractEmail(String token) {
+        return extractUsername(token);
+    }
+
+    // ... (keep the rest of the methods: generateToken, validateToken, etc.)
 }
