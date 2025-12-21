@@ -17,14 +17,17 @@ public class MatchServiceImpl implements MatchService {
         this.matchRepository = matchRepository;
     }
 
-    // Fixes the error: must override createMatch(Long, Long, Long)
+    /**
+     * Creates a match using IDs. 
+     * This is the only 'createMatch' method allowed in this class.
+     */
     @Override
     public SkillMatch createMatch(Long userId, Long offerId, Long requestId) {
         SkillMatch match = new SkillMatch();
         match.setUserId(userId);
         match.setSkillOfferId(offerId);
         match.setSkillRequestId(requestId);
-        match.setStatus("PENDING"); // Default status
+        match.setStatus("PENDING");
         return matchRepository.save(match);
     }
 
@@ -53,15 +56,6 @@ public class MatchServiceImpl implements MatchService {
         SkillMatch match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new RuntimeException("Match not found"));
         match.setStatus(status);
-        return matchRepository.save(match);
-    }
-    @Override
-    public SkillMatch createMatch(Long userId, Long offerId, Long requestId) {
-        SkillMatch match = new SkillMatch();
-        match.setUserId(userId);
-        match.setSkillOfferId(offerId);
-        match.setSkillRequestId(requestId);
-        match.setStatus("PENDING");
         return matchRepository.save(match);
     }
 }
