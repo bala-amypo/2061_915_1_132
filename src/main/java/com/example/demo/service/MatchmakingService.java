@@ -22,19 +22,19 @@ public class MatchmakingService {
         List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
 
         for (SkillRequest myReq : myRequests) {
-            List<SkillOffer> potentialPartners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
-            for (SkillOffer partnerOffer : potentialPartners) {
-                if (partnerOffer.getUser().getId().equals(userId)) continue;
+            List<SkillOffer> partners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
+            for (SkillOffer pOffer : partners) {
+                if (pOffer.getUser().getId().equals(userId)) continue;
 
-                List<SkillRequest> partnerRequests = requestRepo.findByUser_IdAndActiveTrue(partnerOffer.getUser().getId());
+                List<SkillRequest> pReqs = requestRepo.findByUser_IdAndActiveTrue(pOffer.getUser().getId());
                 for (SkillOffer myOff : myOffers) {
-                    for (SkillRequest pReq : partnerRequests) {
+                    for (SkillRequest pReq : pReqs) {
                         if (pReq.getSkill().getId().equals(myOff.getSkill().getId())) {
                             MatchRecord match = new MatchRecord();
                             match.setUserA(myReq.getUser());
-                            match.setUserB(partnerOffer.getUser());
+                            match.setUserB(pOffer.getUser());
                             match.setSkillOfferedByA(myOff.getSkill());
-                            match.setSkillOfferedByB(partnerOffer.getSkill());
+                            match.setSkillOfferedByB(pOffer.getSkill());
                             return matchRepo.save(match);
                         }
                     }
@@ -50,5 +50,11 @@ public class MatchmakingService {
 
     public List<MatchRecord> getMatchesForUser(Long userId) {
         return matchRepo.findByUserA_IdOrUserB_Id(userId, userId);
+    }
+
+    public MatchRecord updateMatchStatus(Long id, String status) {
+        MatchRecord match = getMatchById(id);
+        match.setStatus(status);
+        return matchRepo.save(match);
     }
 }

@@ -1,34 +1,38 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SkillMatch;
-import com.example.demo.service.MatchService;
+import com.example.demo.model.MatchRecord;
+import com.example.demo.service.MatchmakingService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/matches")
-@Tag(name = "Match") // cite: 167
-public class MatchController {
-    private final MatchService matchService;
+@Tag(name = "Matchmaking", description = "Endpoints for generating and reviewing barter matches")
+public class MatchRecordController {
+    private final MatchmakingService matchmakingService;
 
-    public MatchController(MatchService matchService) { // cite: 9
-        this.matchService = matchService;
+    public MatchRecordController(MatchmakingService matchmakingService) {
+        this.matchmakingService = matchmakingService;
     }
 
-    @PostMapping("/") // cite: 140
-    public ResponseEntity<SkillMatch> createMatch(@RequestParam Long offerId, @RequestParam Long requestId, @RequestParam Long adminUserId) {
-        return ResponseEntity.ok(matchService.createMatch(offerId, requestId, adminUserId));
+    @PostMapping("/generate/{userId}")
+    public MatchRecord generate(@PathVariable Long userId) {
+        return matchmakingService.generateMatch(userId);
     }
 
-    @GetMapping("/{id}") // cite: 142
-    public ResponseEntity<SkillMatch> getMatch(@PathVariable Long id) {
-        return ResponseEntity.ok(matchService.getMatch(id));
+    @GetMapping("/{id}")
+    public MatchRecord getById(@PathVariable Long id) {
+        return matchmakingService.getMatchById(id);
     }
 
-    @PutMapping("/{id}/status") // cite: 143
-    public ResponseEntity<SkillMatch> updateMatchStatus(@PathVariable Long id, @RequestParam String status) {
-        return ResponseEntity.ok(matchService.updateMatchStatus(id, status));
+    @GetMapping("/user/{userId}")
+    public List<MatchRecord> getByUser(@PathVariable Long userId) {
+        return matchmakingService.getMatchesForUser(userId);
+    }
+
+    @PutMapping("/{id}/status")
+    public MatchRecord updateStatus(@PathVariable Long id, @RequestParam String status) {
+        return matchmakingService.updateMatchStatus(id, status);
     }
 }
