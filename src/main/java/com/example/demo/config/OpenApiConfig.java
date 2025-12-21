@@ -1,8 +1,8 @@
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,16 +11,19 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${openapi.server.url:http://localhost:8080}")
-    private String serverUrl;
-
     @Bean
     public OpenAPI customOpenAPI() {
+        // Define your server link (Update the URL to match your environment)
         Server server = new Server();
-        server.setUrl(serverUrl);
-        server.setDescription("API Server Link");
+        server.setUrl("https://9270.pro604cr.amypo.ai/");
+        server.setDescription("Development Server");
 
+        // You can add more servers (e.g., Production) to the list
         return new OpenAPI()
+                .info(new Info()
+                        .title("Skill Barter Matchmaking Platform API")
+                        .version("1.0")
+                        .description("API documentation for the Skill Barter Platform"))
                 .servers(List.of(server));
     }
 }
