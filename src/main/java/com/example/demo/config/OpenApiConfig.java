@@ -15,7 +15,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         // Define your server link (Update the URL to match your environment)
         Server server = new Server();
-        server.setUrl("https://9270.pro604cr.amypo.ai/");
+        server.setUrl("https://9076.408procr.amypo.ai/");
         server.setDescription("Development Server");
 
         // You can add more servers (e.g., Production) to the list
