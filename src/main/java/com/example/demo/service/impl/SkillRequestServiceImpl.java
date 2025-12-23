@@ -31,7 +31,7 @@ public class SkillRequestServiceImpl implements SkillRequestService {
         return repository.findByActiveTrue();
     }
 
-    
+    // Fix: Match the long primitive type and method name exactly
     @Override
     public List<SkillRequest> getRequestsByUser(long userId) {
         return repository.findByUser_IdAndActiveTrue(userId);

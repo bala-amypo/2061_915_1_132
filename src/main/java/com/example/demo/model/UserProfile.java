@@ -22,7 +22,7 @@ public class UserProfile {
     @UpdateTimestamp 
     private LocalDateTime updatedAt;
 
-   
+    // ADD THESE OVERLOADED METHODS FOR TEST COMPATIBILITY
     public void setCreatedAt(java.sql.Timestamp timestamp) {
         this.createdAt = timestamp != null ? timestamp.toLocalDateTime() : null;
     }

@@ -39,7 +39,7 @@ public class SkillOfferServiceImpl implements SkillOfferService {
 
     @Override
     public List<SkillOffer> getAvailableOffers() {
-       
+        // Fix: Use lambda instead of method reference to avoid "cannot find symbol"
         return repository.findAll().stream()
                 .filter(offer -> offer.isActive())
                 .collect(Collectors.toList());

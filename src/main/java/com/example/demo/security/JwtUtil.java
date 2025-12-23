@@ -38,7 +38,7 @@ public class JwtUtil {
         return extractUsername(token);
     }
 
-    
+    // --- ADD THESE TWO METHODS FOR THE TESTS ---
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
@@ -46,7 +46,7 @@ public class JwtUtil {
     public Long extractUserId(String token) {
         return extractAllClaims(token).get("userId", Long.class);
     }
-   
+    // -------------------------------------------
 
     public String generateToken(String email, String role, Long userId) {
         return Jwts.builder()

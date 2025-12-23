@@ -14,7 +14,7 @@ public class Skill {
     private String description;
     private boolean active = true;
 
-    
+    z
     public boolean isActive() {
         return this.active;
     }

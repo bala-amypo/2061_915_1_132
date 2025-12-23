@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
-        
+        // In a production app, you would encode the password here
         return userRepository.save(user);
     }
 

@@ -21,7 +21,7 @@ public class SkillRequest {
     private String urgencyLevel;
     private boolean active = true;
 
-    
+    // Explicit getters to resolve matchmaking and engine symbols
     public Long getId() { return id; }
     public UserProfile getUser() { return user; }
     public Skill getSkill() { return skill; }
