@@ -1,4 +1,4 @@
-package com.example.dem0.dto;
+package com.example.demo.dto;
 
 import lombok.Data;
 
