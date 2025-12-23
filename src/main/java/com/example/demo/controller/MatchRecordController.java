@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.MatchRecord;
 import com.example.demo.service.MatchmakingService;
-import org.springframework.http.ResponseEntity; 
+import org.springframework.http.ResponseEntity; // MISSING IMPORT
 import org.springframework.web.bind.annotation.*;
 
 @RestController
