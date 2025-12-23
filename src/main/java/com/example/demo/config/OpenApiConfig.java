@@ -13,12 +13,12 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        // Define your server link (Update the URL to match your environment)
+       
         Server server = new Server();
         server.setUrl("https://9076.408procr.amypo.ai/");
         server.setDescription("Development Server");
 
-        // You can add more servers (e.g., Production) to the list
+        
         return new OpenAPI()
                 .info(new Info()
                         .title("Skill Barter Matchmaking Platform API")
