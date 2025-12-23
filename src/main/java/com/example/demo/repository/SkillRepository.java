@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
-    // JpaRepository automatically provides findById, save, delete, etc.
+   
 }

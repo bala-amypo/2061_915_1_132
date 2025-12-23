@@ -7,7 +7,7 @@ public interface SkillOfferService {
     SkillOffer createOffer(SkillOffer offer);
     void deleteOffer(Long id);
     
-    // Align these names exactly with what the Controller calls
+    
     SkillOffer getOfferById(Long id);
     SkillOffer getOffer(Long id); // Add this for Controller compatibility
     List<SkillOffer> getOffersByUser(Long userId);

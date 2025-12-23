@@ -6,12 +6,12 @@ import com.example.demo.service.SkillService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-@Service // This annotation is critical for Spring to "find" this bean
+@Service 
 public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;
 
-    // Spring uses this constructor to inject the repository
+    
     public SkillServiceImpl(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }

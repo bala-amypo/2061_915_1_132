@@ -14,7 +14,7 @@ public class Skill {
     private String description;
     private boolean active = true;
 
-    // Manual getter to ensure compatibility with test suite expectations
+    
     public boolean isActive() {
         return this.active;
     }

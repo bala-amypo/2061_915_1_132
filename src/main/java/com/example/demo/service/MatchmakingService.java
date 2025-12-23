@@ -21,7 +21,7 @@ public MatchRecord generateMatch(Long userId) {
     List<SkillOffer> myOffers = offerRepo.findByUser_IdAndActiveTrue(userId);
 
     for (SkillRequest myReq : myRequests) {
-        // Use myReq.getSkill() explicitly
+       
         List<SkillOffer> partners = offerRepo.findBySkillAndActiveTrue(myReq.getSkill());
         for (SkillOffer pOffer : partners) {
             UserProfile partnerProfile = pOffer.getUser();
