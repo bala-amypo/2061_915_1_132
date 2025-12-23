@@ -9,7 +9,7 @@ public interface SkillOfferService {
     
     
     SkillOffer getOfferById(Long id);
-    SkillOffer getOffer(Long id); // Add this for Controller compatibility
+    SkillOffer getOffer(Long id); 
     List<SkillOffer> getOffersByUser(Long userId);
     List<SkillOffer> getAvailableOffers();
 }
