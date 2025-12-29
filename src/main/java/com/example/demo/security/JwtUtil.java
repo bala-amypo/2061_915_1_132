@@ -21,7 +21,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Helper to extract any claim
+    
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -38,7 +38,7 @@ public class JwtUtil {
         return extractUsername(token);
     }
 
-    // --- ADD THESE TWO METHODS FOR THE TESTS ---
+    
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
