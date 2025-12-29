@@ -25,8 +25,7 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest req) {
         User user = userService.findByEmail(req.getEmail());
-        // In real app, check BCrypt password here
-        // Inside your login method
+        
 String token = jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
         return jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
     }
