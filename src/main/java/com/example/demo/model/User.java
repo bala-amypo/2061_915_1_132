@@ -20,7 +20,7 @@ public class User {
 
     private String password;
 
-    private String role = "MONITOR"; // Default as per requirements
+    private String role = "MONITOR"; 
 
     @CreationTimestamp
     private LocalDateTime createdAt;
